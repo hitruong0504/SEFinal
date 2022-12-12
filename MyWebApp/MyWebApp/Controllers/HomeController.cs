@@ -114,5 +114,12 @@ namespace MyWebApp.Controllers
             Session.Clear();
             return RedirectToAction("Index");
         }
+
+        public ActionResult ThanhToan()
+        {
+            ViewBag.Message = "ThanhToan";
+
+            return View();
+        }
     }
 }
