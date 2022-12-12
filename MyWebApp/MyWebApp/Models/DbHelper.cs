@@ -14,5 +14,7 @@ namespace MyWebApp.Models
         }
 
         public DbSet<Product> products { get; set; }
+
+        public DbSet<Account> accounts { get; set; }
     }
 }

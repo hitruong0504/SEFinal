@@ -11,12 +11,14 @@ namespace MyWebApp.Controllers
     public class HomeController : Controller
     {
         private List<Product> myList = new List<Product>();
+        private List<Account> accountList = new List<Account>();
         private DbHelper db = new DbHelper();
 
 
         public HomeController()
         {
             myList = db.products.ToList();
+            accountList = db.accounts.ToList();
         }
 
         public ActionResult Index()
@@ -53,10 +55,63 @@ namespace MyWebApp.Controllers
             return View(product);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string accountName, string password)
+        {
+            if (ModelState.IsValid)
+            {
+                var data = db.accounts.Where(s => s.AccountName.Equals(accountName) && s.Password.Equals(password)).ToList();
+                if (data.Count() > 0)
+                {
+                    //add session
+                    Session["AccountName"] = data.FirstOrDefault().AccountName;
+                    Session["Id"] = data.FirstOrDefault().Id;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.error = "SignIn failed";
+                    return RedirectToAction("LogIn");
+                }
+            }
+            return View();
+        }
 
+
+        /*
+         * Đăng Ký Tài Khoản
+         */
         public ActionResult SignUp()
         {
             return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SignUp(Account account)
+        {
+            if (ModelState.IsValid)
+            {
+                var check = db.accounts.FirstOrDefault(s => s.Email == account.Email);
+                if (check == null)
+                {
+                    db.Configuration.ValidateOnSaveEnabled = false;
+                    db.accounts.Add(account);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            return View();
+
+
+        }
+
+        public ActionResult LogOut()
+        {
+            Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }
