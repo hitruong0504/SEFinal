@@ -39,6 +39,9 @@ namespace MyWebApp.Models
         [StringLength(11, MinimumLength = 10)]
         public string Phone { get; set; }
 
+        public string Role { get; set; }
+
+
         [NotMapped]
         [Required]
         [System.ComponentModel.DataAnnotations.Compare("Password")]

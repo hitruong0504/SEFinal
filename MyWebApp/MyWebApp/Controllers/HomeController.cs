@@ -18,7 +18,7 @@ namespace MyWebApp.Controllers
         public HomeController()
         {
             myList = db.products.ToList();
-            accountList = db.accounts.ToList();
+            accountList = db.account.ToList();
         }
 
         public ActionResult Index()
@@ -61,7 +61,7 @@ namespace MyWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var data = db.accounts.Where(s => s.AccountName.Equals(accountName) && s.Password.Equals(password)).ToList();
+                var data = db.account.Where(s => s.AccountName.Equals(accountName) && s.Password.Equals(password)).ToList();
                 if (data.Count() > 0)
                 {
                     //add session
@@ -94,11 +94,12 @@ namespace MyWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var check = db.accounts.FirstOrDefault(s => s.Email == account.Email);
+                account.Role = "user";
+                var check = db.account.FirstOrDefault(s => s.Email == account.Email);
                 if (check == null)
                 {
                     db.Configuration.ValidateOnSaveEnabled = false;
-                    db.accounts.Add(account);
+                    db.account.Add(account);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
