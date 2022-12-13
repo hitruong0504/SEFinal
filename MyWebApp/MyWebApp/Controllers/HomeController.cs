@@ -121,5 +121,16 @@ namespace MyWebApp.Controllers
 
             return View();
         }
+
+        public ActionResult Cart(int id)
+        {
+
+            Product product = myList.FirstOrDefault(x => x.Id == id);
+            if (product == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(product);
+        }
     }
 }
