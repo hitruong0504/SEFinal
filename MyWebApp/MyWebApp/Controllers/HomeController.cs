@@ -48,7 +48,7 @@ namespace MyWebApp.Controllers
         public ActionResult Details(int id)
         {
             Product product = myList.FirstOrDefault(x => x.Id == id);
-            if(product == null)
+            if (product == null)
             {
                 return RedirectToAction("Index");
             }
@@ -122,9 +122,15 @@ namespace MyWebApp.Controllers
             return View();
         }
 
+        public ActionResult Success()
+        {
+            ViewBag.Message = "Success";
+
+            return View();
+        }
+
         public ActionResult Cart(int id)
         {
-
             Product product = myList.FirstOrDefault(x => x.Id == id);
             if (product == null)
             {

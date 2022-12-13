@@ -37,6 +37,15 @@
     </div>
 </div>
 <p>
-    @Html.ActionLink("Add to Cart", "Cart", new { id = Model.Id }) |
-    @Html.ActionLink("Home", "Index")
+    @if (Session["AccountName"] == null)
+    {<button>@Html.ActionLink("Add to Cart", "Login", "Home") </button>
+    <button>@Html.ActionLink("Payment", "Login", "Home") </button>
+    <button>@Html.ActionLink("Home", "Index", "Home")</button>
+}
+else
+{
+    <button>@Html.ActionLink("Add to Cart", "Cart", new { id = Model.Id }) </button>
+    <button>@Html.ActionLink("Payment", "ThanhToan", "Home") </button>
+    <button>@Html.ActionLink("Home", "Index", "Home")</button>
+}
 </p>

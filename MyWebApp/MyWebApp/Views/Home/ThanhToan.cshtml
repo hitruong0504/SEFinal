@@ -2,7 +2,137 @@
     ViewBag.Title = "ThanhToan";
 }
 
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Montserrat', sans-serif;
+    }
 
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #F7F7F7;
+        padding: 30px 10px;
+    }
+
+    .card {
+        max-width: 500px;
+        margin: auto;
+        color: black;
+        border-radius: 20px;
+    }
+
+    p {
+        margin: 0px;
+    }
+
+    content {
+        align-items: center;
+    }
+
+    .container .h8 {
+        font-size: 30px;
+        font-weight: 800;
+        text-align: center;
+    }
+
+    .btn.btn-primary {
+        width: 80%;
+        height: 60px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 0;
+        background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
+        border: none;
+        transition: 0.5s;
+        background-size: 200% auto;
+        margin-left: 60px;
+        display: block;
+        justify-content: center;
+    }
+
+
+    textarea {
+        background-color: #fff;
+        border: 10px solid #ddd;
+        border-radius: 0;
+        box-shadow: inset 0 5px 2px rgb(0 0 0 / 10%);
+        box-sizing: border-box;
+        color: #333;
+        font-size: .97em;
+        height: 2.907em;
+        max-width: 100%;
+        padding: 0 0.75em;
+        transition: color .3s,border .3s,background .3s,opacity .3s;
+        vertical-align: middle;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .btn.btn.btn-primary:hover {
+        background-position: right center;
+        color: #fff;
+        text-decoration: none;
+    }
+
+
+
+    .btn.btn-primary:hover .fas.fa-arrow-right {
+        transform: translate(15px);
+        transition: transform 0.2s ease-in;
+    }
+
+    .form-control {
+        color: white;
+        background-color: #223C60;
+        border: 2px solid transparent;
+        height: 60px;
+        padding-left: 20px;
+        vertical-align: middle;
+    }
+
+        .form-control:focus {
+            color: white;
+            background-color: #0C4160;
+            border: 2px solid #2d4dda;
+            box-shadow: none;
+        }
+
+    .text {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    h3 {
+        font-size: 14px;
+    }
+
+    .box-1 {
+        max-width: 450px;
+        padding: 10px 40px;
+        user-select: none;
+    }
+
+        .box-1 div .fs-12 {
+            font-size: 8px;
+            color: white;
+        }
+
+        .box-1 div .fs-14 {
+            font-size: 15px;
+            color: white;
+        }
+
+        .box-1 img.pic {
+            width: 20px;
+            height: 20px;
+            object-fit: cover;
+        }
+</style>
 <div class="container p-0">
     <div class="card px-4">
         <h2 class="h8 py-3">Thanh toán đơn hàng</h2>
@@ -47,7 +177,7 @@
                 <textarea name="order_comments" class="input-text " id="order_comments" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn." rows="4" cols="100"></textarea>
                 <div class="col-12">
                     <div class="btn btn-primary mb-3">
-                        <span class="ps-3">Pay</span>
+                        <span class="ps-3"> @Html.ActionLink("Pay", "Success", "Home")</span>
                         <span class="fas fa-arrow-right"></span>
                     </div>
                 </div>
@@ -55,3 +185,4 @@
         </div>
 
     </div>
+
