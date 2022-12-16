@@ -132,7 +132,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\DbHelper.cs" />
+    <Compile Include="Models\Orders.cs" />
+    <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -185,7 +188,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\SignUp.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
-    <Content Include="Views\Home\ThanhToan.cshtml" />
+    <Content Include="Views\Home\Payment.cshtml" />
     <Content Include="Views\Home\Cart.cshtml" />
     <Content Include="Views\Home\Success.cshtml" />
   </ItemGroup>

@@ -14,7 +14,10 @@ namespace MyWebApp.Models
         }
 
         public DbSet<Product> products { get; set; }
-
         public DbSet<Account> account { get; set; }
+        public DbSet<Orders> Orders { get; set; }
+        public DbSet<Payment> payment { get; set; }
+        public DbSet<Cart> Cart { get; set; }
+
     }
 }

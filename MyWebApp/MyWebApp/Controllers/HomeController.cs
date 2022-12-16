@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,13 +14,14 @@ namespace MyWebApp.Controllers
     {
         private List<Product> myList = new List<Product>();
         private List<Account> accountList = new List<Account>();
+        private List<Cart> shopCartList = new List<Cart>();
         private DbHelper db = new DbHelper();
-
 
         public HomeController()
         {
             myList = db.products.ToList();
             accountList = db.account.ToList();
+            shopCartList = db.Cart.ToList();
         }
 
         public ActionResult Index()
@@ -39,21 +42,16 @@ namespace MyWebApp.Controllers
             return View();
         }
 
+        /*
+         * Sign In
+         */
+
         public ActionResult Login()
         {
             ViewBag.Message = "Login page.";
             return View();
         }
 
-        public ActionResult Details(int id)
-        {
-            Product product = myList.FirstOrDefault(x => x.Id == id);
-            if (product == null)
-            {
-                return RedirectToAction("Index");
-            }
-            return View(product);
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -67,6 +65,9 @@ namespace MyWebApp.Controllers
                     //add session
                     Session["AccountName"] = data.FirstOrDefault().AccountName;
                     Session["Id"] = data.FirstOrDefault().Id;
+                    Session["FullName"] = data.FirstOrDefault().FullName();
+                    Session["FirstName"] = data.FirstOrDefault().FirstName;
+                    Session["LastName"] = data.FirstOrDefault().LastName;
                     return RedirectToAction("Index");
                 }
                 else
@@ -80,7 +81,7 @@ namespace MyWebApp.Controllers
 
 
         /*
-         * Đăng Ký Tài Khoản
+         * Sign Up
          */
         public ActionResult SignUp()
         {
@@ -105,8 +106,46 @@ namespace MyWebApp.Controllers
                 }
             }
             return View();
+        }
 
+        /*
+         * Show detail or product
+         */
 
+        public ActionResult Details(int id)
+        {
+            Product product = myList.FirstOrDefault(x => x.Id == id);
+
+            if (product == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(product);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details(int id, Product product)
+        {
+            product = (Product)db.products.FirstOrDefault(s => s.Id.Equals(id));
+
+            Cart cart = new Cart();
+            cart.product_id = product.Id;
+            cart.img = product.Img;
+            cart.name = product.Name;
+            cart.description = product.Describe;
+            cart.amount = 1;
+            cart.price = product.Price;
+            db.Configuration.ValidateOnSaveEnabled = false;
+            db.Cart.Add(cart);
+            db.SaveChanges();
+            return View(product);
+        }
+
+        public ActionResult Cart()
+        {
+            ViewBag.Message = "Shopping Cart";
+            return View(shopCartList);
         }
 
         public ActionResult LogOut()
@@ -115,9 +154,9 @@ namespace MyWebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult ThanhToan()
+        public ActionResult Payment()
         {
-            ViewBag.Message = "ThanhToan";
+            ViewBag.Message = "Payment";
 
             return View();
         }
@@ -125,18 +164,9 @@ namespace MyWebApp.Controllers
         public ActionResult Success()
         {
             ViewBag.Message = "Success";
-
+            db.Cart.RemoveRange(db.Cart.ToList());
+            db.SaveChanges();
             return View();
-        }
-
-        public ActionResult Cart(int id)
-        {
-            Product product = myList.FirstOrDefault(x => x.Id == id);
-            if (product == null)
-            {
-                return RedirectToAction("Index");
-            }
-            return View(product);
         }
     }
 }
