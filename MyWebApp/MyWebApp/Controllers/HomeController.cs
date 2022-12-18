@@ -108,6 +108,34 @@ namespace MyWebApp.Controllers
             return View();
         }
 
+
+        /*
+         * Add new product
+         */
+
+        public ActionResult AddProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddProduct(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                var check = db.products.FirstOrDefault(s => s.Name == product.Name);
+                if (check == null)
+                {
+                    db.Configuration.ValidateOnSaveEnabled = false;
+                    db.products.Add(product);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            return View();
+        }
+
         /*
          * Show detail or product
          */

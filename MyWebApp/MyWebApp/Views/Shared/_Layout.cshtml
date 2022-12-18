@@ -29,6 +29,11 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Cart", "Cart", "Home")</li>
+                    @if ((string)Session["AccountName"] == "admin")
+                    {
+                        <li>@Html.ActionLink("Add Product", "AddProduct", "Home")</li>
+
+                    }
                     @if (Session["AccountName"] == null)
                     {
                         <li id="li-right">@Html.ActionLink("Sign In", "Login", "Home")</li>
