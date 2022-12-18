@@ -1,42 +1,54 @@
 ﻿@model MyWebApp.Models.Product
 
-<div>
-    <h2>Detail</h2>
-    <h4>@Html.DisplayFor(model => model.Name)</h4>
-    <hr />
-    <div class="col-md-6">
-        <img src="@Html.DisplayFor(model => model.Img)" width="70%" height="70%" />
+
+@using (Html.BeginForm("Details", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <h2>Detail</h2>
+        <h4>@Html.DisplayFor(model => model.Name)</h4>
+        <hr />
+        <div class="col-md-6">
+            <img src="@Html.DisplayFor(model => model.Img)" width="70%" height="70%" />
+        </div>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Describe)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Describe)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Amount)
+                </dd>
+
+            </dl>
+        </div>
     </div>
-    <div class="col-md-6">
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Price)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Price)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Describe)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Describe)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Amount)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Amount)
-            </dd>
-
-        </dl>
-    </div>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Home", "Index")
-</p>
+    <p>
+        @if (Session["AccountName"] == null)
+        {
+            <button>@Html.ActionLink("Add to Cart", "Login", "Home") </button>
+            <button>@Html.ActionLink("Home", "Index", "Home")</button>
+        }
+        else
+        {
+            <input type="submit" name="submit" class="btn btn-danger" value="Add to Cart" />
+        }
+    </p>
+}

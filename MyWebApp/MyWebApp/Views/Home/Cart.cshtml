@@ -1,0 +1,89 @@
+﻿@model List<MyWebApp.Models.Cart>
+
+@{
+    int tmp = 0;
+}
+@{
+    ViewBag.Title = "Cart";
+}
+
+<style>
+    .btnPayment {
+        height: 50px;
+        width: 200px;
+        font-weight: bold;
+        margin-left: 600px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Styles.Render("~/Content/style.css")
+    <header class="container">
+        <h1>Shopping Cart</h1>
+
+        <ul class="breadcrumb">
+            <li>Home</li>
+            <li>Shopping Cart</li>
+        </ul>
+    </header>
+
+    <section class="container">
+        <ul class="products">
+
+            @foreach (var item in @Model)
+            {
+                <li class="row">
+                    <div class="col left">
+                        <div class="thumbnail">
+                            <a href="#">
+                                <img src="https://via.placeholder.com/200x150" alt="" />
+                            </a>
+                        </div>
+                        <div class="detail">
+                            <div class="name"><a href="#">@item.name</a></div>
+                            <div class="description">
+                                @item.description
+                            </div>
+                            <div class="price">$@item.price</div>
+                        </div>
+                    </div>
+
+                    <div class="col right">
+                        <div class="quantity">
+                            <input type="number" class="quantity" step="1" value=@item.amount autocomplete="off" />
+                        </div>
+
+                        <div class="remove">
+                            <span class="close"><i class="fa fa-times" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </li>
+                @(tmp = tmp + item.price)
+            }
+        </ul>
+    </section>
+
+    <section class="option-container container">
+        <!-- Mã giảm giá -->
+        <div class="promotion">
+            <label for="promo-code">Have A Promo Code?</label>
+            <input type="text" id="promo-code" autocomplete="off" />
+            <button type="button"></button>
+
+        </div>
+
+        <!-- Tổng tiền -->
+        <div class="summary">
+            <ul>
+                @{ int VAT = tmp * 10 / 100;}
+                <li class="subtotal">Subtotal <span>@tmp</span></li>
+                <li class="vat">VAT<span>@VAT</span></li>
+                <li class="discount hide">Discount<span>$5.00</span></li>
+                <li class="total">Total <span>@(tmp+VAT)</span></li>
+            </ul>
+        </div>
+    </section>
+}
+<button class="btnPayment">@Html.ActionLink("Payment", "Payment", "Home") </button>
